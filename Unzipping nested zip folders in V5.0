@@ -1,0 +1,20 @@
+#---------------------------------------------------------------------------------------
+# Tested in    :  PSVersion 5.0 
+# Filename     :  Unzip.ps1
+# Autor        :  Kiran
+# Description  :  Powershell script for Unzipping nested zip folders in V5.0 or above.
+#---------------------------------------------------------------------------------------
+param(
+ [string]$source = "C:\File.zip",
+ [string]$dest = "C:\File"
+ )
+ 
+ $mainzip = gci -Path $source -Filter "*.zip"
+
+ Expand-Archive -Path $mainzip.fullname -DestinationPath $dest
+
+ $childzip = gci -Path $dest -Filter "*zip"
+
+ foreach($childfile in $childzip){
+ Expand-Archive -path $childfile.fullname -Destinationpath $dest
+ }
